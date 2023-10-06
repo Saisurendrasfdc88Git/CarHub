@@ -5,7 +5,7 @@ import CARS_FILTERED_MESSAGE from '@salesforce/messageChannel/CarsFiltered__c';
 import CARS_SELECTED_MESSAGE from '@salesforce/messageChannel/carSelected__c';
 export default class CarTileList extends LightningElement {
 
-    cars;
+    cars=[];
     error;
     filters={};
     carFiltersSubscription;

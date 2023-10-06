@@ -1,7 +1,10 @@
 import { LightningElement,wire} from 'lwc';
 //this funtion is used to extract field value
 import { getFieldValue} from 'lightning/uiRecordApi';
+//navigate to recorddetails page
+import {NavigationMixin} from 'lightning/navigation';
 //car__c schema
+import CAR_OBJECT from '@salesforce/schema/Car__c';
 import NAME_FIELD from '@salesforce/schema/Car__c.Name';
 import PICTURE_URL_FIELD from '@salesforce/schema/Car__c.Picture_URL__c';
 import CATEGORY_FIELD from '@salesforce/schema/Car__c.Category__c';
@@ -15,7 +18,7 @@ import CONTROL_FIELD from '@salesforce/schema/Car__c.Control__c';
 import { subscribe,MessageContext, unsubscribe } from 'lightning/messageService';
 import CARS_SELECTED_MESSAGE from '@salesforce/messageChannel/CarSelected__c';
 
-export default class CarCard extends LightningElement {
+export default class CarCard extends NavigationMixin(LightningElement) {
 //Id of Car__c to display
 //recordId="a0B2w00000C4hHiEAJ";
 
@@ -60,5 +63,16 @@ handleCarSelected(message){
 disconnectedCallback(){
 unsubscribe(this.carSelectionSubscription)
 this.carSelectionSubscription=null;
+}
+
+handleNavigateToRecord(){
+    this[NavigationMixin.Navigate]({
+        type:'standard__recordPage',
+        attributes:{
+            recordId:this.recordId,
+            objectApiName:CAR_OBJECT.objectApiName,
+            actionName:'view'
+        }
+    })
 }
 }
